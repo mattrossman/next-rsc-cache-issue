@@ -1,91 +1,31 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+import { formatInTimeZone } from "date-fns-tz"
+import { headers as nextHeaders } from "next/headers"
 
-const inter = Inter({ subsets: ['latin'] })
+const DEV_TIMEZONE = "America/New_York"
 
 export default function Home() {
+  const now = Date.now()
+
+  const headersList = nextHeaders()
+
+  const headerTimezone = headersList.get("x-vercel-ip-timezone")
+  if (headerTimezone == null && process.env.NODE_ENV === "production")
+    throw new Error(`Missing "x-vercel-ip-timezone" header in production`)
+
+  const timezone = headerTimezone ?? DEV_TIMEZONE
+  const dateText = formatInTimeZone(now, timezone, "EEEE, LLLL do yyyy")
+  const timeText = formatInTimeZone(now, timezone, "h:mm:ss aa")
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+    <main className="grid place-content-center place-items-center bg-gradient-to-br h-screen w-screen from-slate-900 to-slate-800 text-white">
+      <h1 className="text-3xl font-bold mb-4">Hello!</h1>
+      <p>This page was rendered on</p>
+      <p>
+        <b>{dateText}</b>
+      </p>
+      <p>
+        at <b>{timeText}</b>
+      </p>
     </main>
   )
 }
