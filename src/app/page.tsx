@@ -14,10 +14,14 @@ export default async function Home() {
   const { datetime } = await fetch(`https://worldtimeapi.org/api/timezone/${timezone}`).then((res) => res.json())
 
   return (
-    <main className="grid place-content-center place-items-center h-screen">
-      <h1 className="text-3xl font-bold mb-4">Hello!</h1>
+    <main className="container">
       <p>This page was rendered on</p>
-      <p className="font-bold">{datetime}</p>
+      <p>
+        <b>{datetime}</b>
+      </p>
+      <p>
+        Timezone: <b>{timezone}</b>
+      </p>
     </main>
   )
 }

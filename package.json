@@ -1,12 +1,15 @@
 {
-  "name": "2023-03-22_next-13-dynamic",
+  "name": "next-rsc-cache-issue",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "vercel",
+    "deploy:prod": "vercel --prod"
   },
   "dependencies": {
     "@types/node": "18.15.5",
@@ -18,9 +21,6 @@
     "typescript": "5.0.2"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7",
     "vercel": "^28.17.0"
   }
 }
